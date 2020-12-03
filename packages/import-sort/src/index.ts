@@ -6,18 +6,19 @@ import {
   IStyle,
 } from "import-sort-style";
 
+// eslint-disable-next-line import/extensions
 import StyleAPI from "./style/StyleAPI";
-
-export interface ISortResult {
-  code: string;
-  changes: ICodeChange[];
-}
 
 export interface ICodeChange {
   start: number;
   end: number;
   code: string;
   note?: string;
+}
+
+export interface ISortResult {
+  code: string;
+  changes: ICodeChange[];
 }
 
 export default function importSort(
@@ -181,16 +182,19 @@ export function sortImports(
   let afterChange: ICodeChange | undefined;
 
   // Collapse all whitespace into a single blank line
-  before = before.replace(/[\t\v\f\r \u00a0\u2000-\u200b\u2028-\u2029\u3000]+$/, match => {
-    beforeChange = {
-      start: start - match.length,
-      end: start,
-      code: eol + eol,
-      note: "before-collapse",
-    };
+  before = before.replace(
+    /[\t\v\f\r \u00a0\u2000-\u200b\u2028-\u2029\u3000]+$/,
+    match => {
+      beforeChange = {
+        start: start - match.length,
+        end: start,
+        code: eol + eol,
+        note: "before-collapse",
+      };
 
-    return eol + eol;
-  });
+      return eol + eol;
+    },
+  );
 
   // Collapse all whitespace into a single new line
   after = after.replace(/^\s+/, match => {

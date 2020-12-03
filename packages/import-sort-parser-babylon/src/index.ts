@@ -8,6 +8,7 @@ import {
 import {ParserOptions, parse as babelParserParse} from "@babel/parser";
 import traverse from "@babel/traverse";
 import {
+  Identifier,
   isImportDefaultSpecifier,
   isImportNamespaceSpecifier,
   isImportSpecifier,
@@ -179,13 +180,13 @@ export function parseImports(
             const type = specifier.importKind === "type" ? {type: true} : {};
 
             imported.namedMembers.push({
-              name: specifier.imported.name,
+              name: (specifier.imported as Identifier).name,
               alias: specifier.local.name,
               ...type,
             });
           } else if (isImportDefaultSpecifier(specifier)) {
             imported.defaultMember = specifier.local.name;
-          } else if (isImportNamespaceSpecifier) {
+          } else if (isImportNamespaceSpecifier(specifier)) {
             imported.namespaceMember = specifier.local.name;
           }
         });
