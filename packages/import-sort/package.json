@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "prepublishOnly": "tsc -b .",
+    "postinstall": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "tsc -b .",
     "build:watch": "tsc -b . -w",
     "test": "mocha --require ts-node/register --recursive \"test/**/*.ts\"",
